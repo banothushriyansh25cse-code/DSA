@@ -1,0 +1,142 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Song
+{
+    char name[50];
+    int duration;
+};
+
+struct Song playlist[50];
+int n = 0;
+
+/* Add Song */
+void addSong()
+{
+    printf("\nEnter song name: ");
+    scanf(" %[^\n]", playlist[n].name);
+
+    printf("Enter duration (minutes): ");
+    scanf("%d", &playlist[n].duration);
+
+    n++;
+
+    printf("\nSong added successfully!\n");
+}
+
+/* Display Songs */
+void displaySongs()
+{
+    int i;
+
+    if (n == 0)
+    {
+        printf("\nPlaylist is empty!\n");
+        return;
+    }
+
+    printf("\n========== MUSIC PLAYLIST ==========\n");
+
+    for (i = 0; i < n; i++)
+    {
+        printf("\n%d. %s", i + 1, playlist[i].name);
+        printf("\n   Duration: %d minutes\n", playlist[i].duration);
+    }
+}
+
+/* Linear Search */
+void searchSong()
+{
+    char name[50];
+    int i, found = 0;
+
+    printf("\nEnter song name to search: ");
+    scanf(" %[^\n]", name);
+
+    for (i = 0; i < n; i++)
+    {
+        if (strcmp(playlist[i].name, name) == 0)
+        {
+            printf("\nSong Found!");
+            printf("\nName: %s", playlist[i].name);
+            printf("\nDuration: %d minutes\n", playlist[i].duration);
+
+            found = 1;
+            break;
+        }
+    }
+
+    if (found == 0)
+        printf("\nSong not found!\n");
+}
+
+/* Bubble Sort */
+void sortSongs()
+{
+    int i, j;
+    struct Song temp;
+
+    for (i = 0; i < n - 1; i++)
+    {
+        for (j = 0; j < n - i - 1; j++)
+        {
+            if (strcmp(playlist[j].name,
+                       playlist[j + 1].name) > 0)
+            {
+                temp = playlist[j];
+                playlist[j] = playlist[j + 1];
+                playlist[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("\nPlaylist sorted alphabetically!\n");
+}
+
+/* Main */
+int main()
+{
+    int choice;
+
+    do
+    {
+        printf("\n\n===== MUSIC PLAYLIST MANAGER =====");
+        printf("\n1. Add Song");
+        printf("\n2. Display Songs");
+        printf("\n3. Search Song");
+        printf("\n4. Sort Songs");
+        printf("\n5. Exit");
+
+        printf("\n\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                addSong();
+                break;
+
+            case 2:
+                displaySongs();
+                break;
+
+            case 3:
+                searchSong();
+                break;
+
+            case 4:
+                sortSongs();
+                break;
+
+            case 5:
+                printf("\nThank you!\n");
+                break;
+
+            default:
+                printf("\nInvalid choice! Enter 1-5.\n");
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
